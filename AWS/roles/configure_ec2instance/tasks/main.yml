@@ -1,5 +1,9 @@
 ---
 # tasks file for roles/configure_ec2instance
+
+- name: Aguardando reposta SSH do novo servidor (Max 600s)
+  ansible.builtin.wait_for_connection:
+
 - name: Configuracao padrao SManager - sshd_config
   ansible.builtin.template:
     src: templates/sshd_config.j2
