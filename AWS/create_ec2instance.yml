@@ -1,52 +1,13 @@
 ---
 - name: Criando instancia EC2 
   hosts: localhost
-  tasks:
-    - name: Create a new VPC 
-      amazon.aws.ec2_vpc_net:
-        name: "{{ vpc_name }}"
-        cidr_block: "{{ cidr_block }}"
-        region: "{{ region }}"
-      register: vpc
-  
-    - name: Create a new Subnet
-      amazon.aws.ec2_vpc_subnet:
-        cidr: "{{ cidr }}"
-        region: "{{ region }}"
-        vpc_id: "{{ vpc.vpc.id }}"
-      register: subnet
-    
-    - name: Create a Security Group  
-      amazon.aws.ec2_security_group:
-        name: "Ansible-Test-Security-Group"
-        description: "Ansible-Testing"
-        vpc_id: "{{ vpc.vpc.id }}"
-        region: "{{ region }}"
-        rules:
-          - proto: tcp
-            ports:
-            - 80
-            - 22
-            cidr_ip: 0.0.0.0/0
-            rule_desc: "allow all on port 80"
-      register: security_group
-    
-    - ansible.builtin.debug:
-        var: security_group.group_id
+  roles:
+    - create_ec2instance 
 
-    - ansible.builtin.debug:
-        var: subnet.subnet.id
-    
-    - name: Launch an EC2 Instance
-      amazon.aws.ec2_instance:
-        name: "{{ ec2_instance_name }}"
-        key_name: "{{ key_name }}"
-        vpc_subnet_id: "{{ subnet.subnet.id }}"
-        instance_type: "{{ instance_type }}"
-        security_group: "{{ security_group.group_id  }}"
-        count: 1
-        wait: yes
-        aws_region: "{{ region }}"
-        network:
-          assign_public_ip: true
-        image_id: "{{ ami }}"
+# O grupo de inventario "ec2_new_instances" é gerado em tempo de execução no play "Criando instancia EC2"
+- name: Configurando a nova instancia EC2
+  hosts: ec2_new_instances
+  become: true
+  roles:
+    - configure_ec2instance
+...
