@@ -1,10 +1,10 @@
 ---
-- name: Creating an EC2 Instance with Creating a VPC and Subnet Id
+- name: Criando instancia EC2 
   hosts: localhost
   tasks:
     - name: Create a new VPC 
       amazon.aws.ec2_vpc_net:
-        name: "Ansible-Test"
+        name: "{{ vpc_name }}"
         cidr_block: "{{ cidr_block }}"
         region: "{{ region }}"
       register: vpc
@@ -38,14 +38,14 @@
     
     - name: Launch an EC2 Instance
       amazon.aws.ec2_instance:
-        name: "Test-Ansible"
+        name: "{{ ec2_instance_name }}"
         key_name: "{{ key_name }}"
         vpc_subnet_id: "{{ subnet.subnet.id }}"
         instance_type: "{{ instance_type }}"
         security_group: "{{ security_group.group_id  }}"
         count: 1
         wait: yes
-        aws_region: "ap-south-1"
+        aws_region: "{{ region }}"
         network:
           assign_public_ip: true
         image_id: "{{ ami }}"
