@@ -48,15 +48,18 @@
     network:
       assign_public_ip: true
     image_id: "{{ ami }}"
+  register: ec2_vm
  
-- name: Add instance(s) to my_instances group
-  ansible.builtin.add_host:
-    name: "{{ item.tags.Name }}"
-    ansible_host: "{{ item.public_ip_address }}"
-    ansible_user: "{{ ec2_username }}"
-    private_ip: "{{ item.private_ip_address }}"
-    instance_name: "{{ ec2_resource_prefix }}"
-    instance_ssh: "{{ ssh_info }}"
-    groups:
-      - ec2_new_instances
-  with_items: "{{ ansible_node_facts.instances }}"
+- ansible.builtin.debug:
+    var: ec2_vm
+#- name: Add instance(s) to my_instances group
+#  ansible.builtin.add_host:
+#    name: "{{ item.tags.Name }}"
+#    ansible_host: "{{ item.public_ip_address }}"
+#    ansible_user: "{{ ec2_username }}"
+#    private_ip: "{{ item.private_ip_address }}"
+#    instance_name: "{{ ec2_resource_prefix }}"
+#    instance_ssh: "{{ ssh_info }}"
+#    groups:
+#      - ec2_new_instances
+#  with_items: "{{ ansible_node_facts.instances }}"
