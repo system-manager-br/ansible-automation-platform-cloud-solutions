@@ -48,6 +48,8 @@
     network:
       assign_public_ip: true
     image_id: "{{ ami }}"
+    tags:
+      environment: rhel-ansible-demo
   register: ec2_vm
  
 - name: Criando um grupo de inventario em tempo de execucao
