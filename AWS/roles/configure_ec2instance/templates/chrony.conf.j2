@@ -14,7 +14,8 @@ pool c.ntp.br iburst
 # Please consider joining the pool (https://www.pool.ntp.org/join.html).
 
 # Use NTP servers from DHCP.
-sourcedir /run/chrony-dhcp
+# comentado para RHEL 7.x
+#sourcedir /run/chrony-dhcp
 
 # Record the rate at which the system clock gains/losses time.
 driftfile /var/lib/chrony/drift
@@ -46,7 +47,8 @@ rtcsync
 keyfile /etc/chrony.keys
 
 # Save NTS keys and cookies.
-ntsdumpdir /var/lib/chrony
+# comentado para RHEL 7.x
+#ntsdumpdir /var/lib/chrony
 
 # Insert/delete leap seconds by slewing instead of stepping.
 #leapsecmode slew
