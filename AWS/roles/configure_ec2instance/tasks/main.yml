@@ -13,7 +13,7 @@
     mode: 0600
   notify: restart sshd
 
-- name: Pacotes SManager 
+- name: Instalacao - Pacotes SManager 
   ansible.builtin.package:
     name:
       - tmux
