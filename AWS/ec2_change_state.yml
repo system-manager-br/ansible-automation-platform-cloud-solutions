@@ -1,0 +1,6 @@
+---
+- name: Change EC2 State 
+  hosts: localhost
+  roles:
+    - ec2_state 
+...

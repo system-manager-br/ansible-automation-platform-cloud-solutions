@@ -1,6 +1,6 @@
 ---
-- name: Start instances
+- name: "Change EC2 State to {{ EC2_STATE }}" 
   amazon.aws.ec2_instance:
     instance_ids: '{{ instance_ids }}'
-    state: running
+    state: "{{ EC2_STATE }}" 
     region: us-east-1
